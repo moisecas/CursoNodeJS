@@ -3,7 +3,11 @@
 
 const express = require("express");
 
+const response = require("../../network/response");  //se debe seleccionar la ruta correcta, network peticiones y en response las funciones
+
 const router = express.Router(); 
+
+const controller = require("./controller"); 
 
 
 router.get("/message", function(req,res){ //añadir una petición se usa "/" para la respuesta, la ruta. La función recibe dos cosas req y res 
@@ -16,15 +20,16 @@ router.get("/message", function(req,res){ //añadir una petición se usa "/" par
 
 });
 
-router.post("/message", function(req,res){ //para hacer otra petición 
-    console.log(req.query); //para  trabajar con el query 
-    if (req.query.error == "ok"){
-        response.error(req,res, "error inesperado",500); //llame al modulo de response
-
-    }else{
-        response.sucess(req,res, "creado",201); //llame al modulo de response
-    }
+router.post("/", function(req,res){ //para hacer otra petición 
     
-    //res.status(201).send({error:"" , body: "creado"  }); //rta a la petición, podemos enviar un objeto o un array 
-
+    controller.addMessage(req.body.user, req.body.message)
+        then(()=>{
+            response.sucess(req,res, "creado",201); //llame al modulo de response
+        });
+        
+         
 });
+
+module.exports=router; //llevarnos las rutas get y post al router
+
+//response.error(req,res, "error inesperado",400, "error controlador"); //llame al modulo de response

@@ -1,16 +1,18 @@
 const express = require("express"); 
 const bodyParser = require("body-parser"); //se declara el body
 
-const response = require("./network/response") 
+const router = require("./network/routers");  
 
 //const router = express.Router(); //definir router, separar peticiones, en insomnia (aplicacion) probamos
 
-const router = require("./components/message/network"); //definiremos router mensajes 
+const routers = require("./components/message/network"); //definiremos router mensajes 
 
 var app = express(); 
 app.use(bodyParser.json());  //se usa el bodyparser, hay que enviarlo por json, uno de los metodos 
 app.use(bodyParser.urlencoded({extended: false}));  //lo mismo se hace acá se recomienda dejarlo en false 
-app.use(router); //añadir router a express
+//app.use(router); //añadir router a express
+
+router(app); 
 
 
 

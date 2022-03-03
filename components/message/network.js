@@ -20,15 +20,16 @@ router.get("/message", function(req,res){ //añadir una petición se usa "/" par
 
 });
 
-router.post("/", function(req,res){ //para hacer otra petición 
-    
-    controller.addMessage(req.body.user, req.body.message)
-        then(()=>{
-            response.sucess(req,res, "creado",201); //llame al modulo de response
-        });
-        
-         
-});
+router.post('/',(req,res)=>{
+    const {body:{user,message}} = req
+    controller.addMessage(user, message)
+        .then((fullMessage)=>{
+            response.success(req,res,200,fullMessage)
+        })
+        .catch(()=>{
+            response.error(req,res,400,'Error')
+        })
+}) 
 
 module.exports=router; //llevarnos las rutas get y post al router
 
